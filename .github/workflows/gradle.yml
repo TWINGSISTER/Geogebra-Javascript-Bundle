@@ -18,6 +18,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Get current date
+      id: date
+      run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
     #- uses: actions/checkout@v2
     #- name: get the orig
     - name: get orig
@@ -66,6 +69,9 @@ jobs:
         name: prettified-ggb-bundle
 #??? :web:createDraftBundleZip        path: "./web/war/geogebra-large-bundle.zip"
         path: "./zip-bundle"
+    - name: Get current date
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
     - name: relase
       uses: "marvinpinto/action-automatic-releases@latest"
       with:
@@ -74,4 +80,10 @@ jobs:
           title: "bundle"
           automatic_release_tag: "latest"
           files: |
-            ./zip-bundle/prettified-ggb-bundle
+            ./zip-bundle/prettified-ggb-bundle.zip
+    -name: other release
+    uses: ncipollo/release-action@v1
+      with:
+        artifacts: "./zip-bundle/prettified-ggb-bundle.zip"
+        tag: "release-${{ steps.date.outputs.date }}"
+        token: ${{ secrets.GITHUB_TOKEN }}
