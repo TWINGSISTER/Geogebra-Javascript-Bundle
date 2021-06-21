@@ -69,12 +69,13 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: prettified-ggb-bundle
+        path: "./zip-bundle"
     - uses: montudor/action-zip@v1
       with:
         args: zip -qq -r release.zip  ./zip-bundle
 
 #??? :web:createDraftBundleZip        path: "./web/war/geogebra-large-bundle.zip"
-        path: "./zip-bundle"
+        
  #   - name: relase
  #     uses: "marvinpinto/action-automatic-releases@latest"
  #     with:
