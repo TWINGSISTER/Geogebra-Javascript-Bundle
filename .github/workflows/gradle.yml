@@ -71,7 +71,7 @@ jobs:
         name: prettified-ggb-bundle
     - uses: montudor/action-zip@v1
       with:
-      args: zip -qq -r release.zip  ./zip-bundle
+        args: zip -qq -r release.zip  ./zip-bundle
 
 #??? :web:createDraftBundleZip        path: "./web/war/geogebra-large-bundle.zip"
         path: "./zip-bundle"
@@ -94,17 +94,17 @@ jobs:
         tag: ${{ github.ref }}
         overwrite: true
         body: "This is my release text"
-      - name: zipping
-        uses: thedoctor0/zip-release@master
-          with:
+    - name: zipping
+      uses: thedoctor0/zip-release@master
+      with:
             filename: 'release.zip'
        #     exclusions: '*.git* /*node_modules/* .editorconfig'
             directory: ./zip-bundle
     - name: Publish
       uses: softprops/action-gh-release@v1
-        with:
+      with:
           files: "release.zip"
-        env:
+      env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
  #   - name: other release
  #     uses: ncipollo/release-action@v1
