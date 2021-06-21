@@ -20,7 +20,9 @@ jobs:
     steps:
     - name: Get current date
       id: date
-      run: echo "::set-output name=date::$(date +'%Y-%m-%d %H:%i:%s')"
+      run: echo "::set-output name=date::$(date +'%Y-%m-%d-%H-%i-%s')"
+    - name: go for the name
+      run: echo "release-${{ steps.date.outputs.date }}"
     #- uses: actions/checkout@v2
     #- name: get the orig
     - name: get orig
@@ -78,12 +80,6 @@ jobs:
           automatic_release_tag: "latest"
           files: |
             ./zip-bundle/*
-    - name: other release
-      uses: ncipollo/release-action@v1
-      with:
-        artifacts: "./zip-bundle/*"
-        tag: "release-${{ steps.date.outputs.date }}"
-        token: ${{ secrets.GITHUB_TOKEN }}
     - name: Upload binaries to release
       uses: svenstaro/upload-release-action@v2
       with:
@@ -94,3 +90,9 @@ jobs:
         tag: ${{ github.ref }}
         overwrite: true
         body: "This is my release text"
+    - name: other release
+      uses: ncipollo/release-action@v1
+      with:
+        artifacts: "./zip-bundle/*"
+        tag: "release-${{ steps.date.outputs.date }}"
+        token: ${{ secrets.GITHUB_TOKEN }}
