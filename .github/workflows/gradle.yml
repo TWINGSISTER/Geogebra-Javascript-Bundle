@@ -69,9 +69,6 @@ jobs:
         name: prettified-ggb-bundle
 #??? :web:createDraftBundleZip        path: "./web/war/geogebra-large-bundle.zip"
         path: "./zip-bundle"
-    - name: Get current date
-        id: date
-        run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
     - name: relase
       uses: "marvinpinto/action-automatic-releases@latest"
       with:
