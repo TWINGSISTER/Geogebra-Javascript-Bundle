@@ -104,7 +104,7 @@ jobs:
     - name: Upload to release
       uses: JasonEtco/upload-to-release@master
       with:
-          args: my-image.tar
+          args: release.zip
       env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}            
  #   - name: Publish
