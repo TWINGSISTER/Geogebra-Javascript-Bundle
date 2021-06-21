@@ -77,10 +77,10 @@ jobs:
           title: "bundle"
           automatic_release_tag: "latest"
           files: |
-            ./zip-bundle/prettified-ggb-bundle.zip
+            ./zip-bundle/*
     - name: other release
       uses: ncipollo/release-action@v1
       with:
-        artifacts: "./zip-bundle/prettified-ggb-bundle.zip"
+        artifacts: "./zip-bundle/*"
         tag: "release-${{ steps.date.outputs.date }}"
         token: ${{ secrets.GITHUB_TOKEN }}
