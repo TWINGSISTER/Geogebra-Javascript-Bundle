@@ -70,8 +70,8 @@ jobs:
       with:
         name: prettified-ggb-bundle
     - uses: montudor/action-zip@v1
-        with:
-          args: zip -qq -r vendor.zip vendor
+      with:
+      args: zip -qq -r release.zip  ./zip-bundle
 
 #??? :web:createDraftBundleZip        path: "./web/war/geogebra-large-bundle.zip"
         path: "./zip-bundle"
@@ -98,7 +98,7 @@ jobs:
         uses: thedoctor0/zip-release@master
           with:
             filename: 'release.zip'
-            exclusions: '*.git* /*node_modules/* .editorconfig'
+       #     exclusions: '*.git* /*node_modules/* .editorconfig'
             directory: ./zip-bundle
     - name: Publish
       uses: softprops/action-gh-release@v1
