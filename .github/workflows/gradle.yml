@@ -78,8 +78,8 @@ jobs:
           automatic_release_tag: "latest"
           files: |
             ./zip-bundle/prettified-ggb-bundle.zip
-    -name: other release
-    uses: ncipollo/release-action@v1
+    - name: other release
+      uses: ncipollo/release-action@v1
       with:
         artifacts: "./zip-bundle/prettified-ggb-bundle.zip"
         tag: "release-${{ steps.date.outputs.date }}"
