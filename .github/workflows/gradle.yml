@@ -62,7 +62,7 @@ jobs:
     - name: Crete the zip for the bundle
       uses: montudor/action-zip@v1
       with:
-        args: zip -qq -r bundle-${{ steps.date.outputs.date }}.zip  ./zip-bundle/*
+        args: zip -qq -r bundle-${{ steps.date.outputs.date }}.zip . -i ./zip-bundle/*
     - name: zipping
       uses: thedoctor0/zip-release@master
       with:
