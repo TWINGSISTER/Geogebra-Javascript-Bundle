@@ -37,13 +37,13 @@ jobs:
     - name: Grant execute permission for gradlew
       run: chmod +x ${{env.CPY}}/gradlew
     - name: Build with Gradle 
-#        sed -i 's/org.wisepersist.gradle.plugins.gwt.Style.DETAILED/org.wisepersist.gradle.plugins.gwt.Style.PRETTY/' ./web/build.gradle
-#        cat ./web/build.gradle
-# -Pgdetailed=false
       run: |
+        sed -i 's/org.wisepersist.gradle.plugins.gwt.Style.DETAILED/org.wisepersist.gradle.plugins.gwt.Style.PRETTY/' ./web/build.gradle
+#        cat ./web/build.gradle
         cd ${{env.CPY}} 
-        ./gradlew  :web:createSolverHtml :web:deployIntoWar :web:prepareS3Upload :web:mergeDeploy   -Pgdraft=true 
-        ./gradlew  :desktop:compileJava #-Pusegpl=true 
+        ./gradlew  :web:createSolverHtml :web:deployIntoWar :web:prepareS3Upload :web:mergeDeploy   -Pgdraft=true  -Pgdetailed=true
+
+#        ./gradlew  :desktop:compileJava #-Pusegpl=true 
 
     - name: List all created files
       run: ls -Ral   
@@ -64,7 +64,7 @@ jobs:
     - name: Crete the zip for the bundle
       uses: montudor/action-zip@v1
       with:
-        args: zip -qq -r bundle-${{ steps.date.outputs.date }}.zip  ./zip-bundle
+        args: zip -qq -r bundle-${{ steps.date.outputs.date }}.zip  ./zip-bundle/*
     - name: zipping
       uses: thedoctor0/zip-release@master
       with:
@@ -91,4 +91,14 @@ jobs:
           upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
           asset_path: ./bundle-${{ steps.date.outputs.date }}.zip #release.zip
           asset_name: bundle-${{ steps.date.outputs.date }}.zip #release.zip
+          asset_content_type: application/zip
+    - name: Upload Release Asset 2
+      id: upload-release-asset-2 
+      uses: actions/upload-release-asset@v1
+      env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+          asset_path: ./release.zip
+          asset_name: release.zip
           asset_content_type: application/zip
