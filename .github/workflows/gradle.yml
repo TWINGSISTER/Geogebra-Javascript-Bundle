@@ -43,7 +43,7 @@ jobs:
       run: |
         cd ${{env.CPY}} 
         ./gradlew  :web:createSolverHtml :web:deployIntoWar :web:prepareS3Upload :web:mergeDeploy   -Pgdraft=true 
-        ./gradlew  :desktop:run -Pusegpl=true 
+        ./gradlew  :desktop:compileJava #-Pusegpl=true 
 
     - name: List all created files
       run: ls -Ral   
