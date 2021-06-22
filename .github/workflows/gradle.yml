@@ -38,11 +38,11 @@ jobs:
 #        sed -i 's/org.wisepersist.gradle.plugins.gwt.Style.DETAILED/org.wisepersist.gradle.plugins.gwt.Style.PRETTY/' ./web/build.gradle
 #        cat ./web/build.gradle
 # -Pgdetailed=false
-    - name: List all created files
-      run: ls -Ral   
       run: |
         cd ${{env.CPY}} 
-        ./gradlew  :web:createSolverHtml :web:deployIntoWar :web:prepareS3Upload :web:mergeDeploy  -Pgdraft=true 
+        ./gradlew  :web:createSolverHtml :web:deployIntoWar :web:prepareS3Upload :web:mergeDeploy   :desktop:run -Pgdraft=true 
+    - name: List all created files
+      run: ls -Ral   
     - name: copy the files for the bundle  
       run: |
         mkdir zip-bundle
