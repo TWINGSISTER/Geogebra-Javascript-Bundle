@@ -43,6 +43,7 @@ jobs:
         ./gradlew  :web:createSolverHtml :web:deployIntoWar :web:prepareS3Upload :web:mergeDeploy   :desktop:run -Pgdraft=true 
     - name: List all created files
       run: ls -Ral   
+      
     - name: copy the files for the bundle  
       run: |
         mkdir zip-bundle
