@@ -13,7 +13,9 @@ env:
   CPY: './copydir'
 
 jobs:
+
   build:
+  
     runs-on: ubuntu-latest
     steps:
     - name: Get current date
@@ -41,6 +43,7 @@ jobs:
       run: |
         cd ${{env.CPY}} 
         ./gradlew  :web:createSolverHtml :web:deployIntoWar :web:prepareS3Upload :web:mergeDeploy   :desktop:run -Pgdraft=true 
+    
     - name: List all created files
       run: ls -Ral   
       
@@ -58,7 +61,7 @@ jobs:
  #   - name: Setup tmate sessions
  #     uses: mxschmitt/action-tmate@v3   
     - name: Crete the zip for the bundle
-    - uses: montudor/action-zip@v1
+      uses: montudor/action-zip@v1
       with:
         args: zip -qq -r bundle-${{ steps.date.outputs.date }}.zip  ./zip-bundle
     - name: zipping
