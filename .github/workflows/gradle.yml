@@ -14,28 +14,19 @@ env:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
     - name: Get current date
       id: date
       run: echo "::set-output name=date::$(date +'%Y-%m-%d-%H-%M-%S')"
     - name: go for the name
       run: echo "release-${{ steps.date.outputs.date }}"
-    #- uses: actions/checkout@v2
-    #- name: get the orig
     - name: get orig
       uses: actions/checkout@v2
       with :
         repository: geogebra/geogebra
         ref: master
         path: ${{env.CPY}}
-      # all operations with gradle must bear this.
-      #- name: Setup tmate sessions
-      
-  #  - name: wait and see
-  #    uses: mxschmitt/action-tmate@v3   
     - name: Set up JDK 11
       uses: actions/setup-java@v2
       with:
@@ -43,16 +34,16 @@ jobs:
         distribution: 'adopt'
     - name: Grant execute permission for gradlew
       run: chmod +x ${{env.CPY}}/gradlew
-    - name: Build with Gradle zip
+    - name: Build with Gradle 
 #        sed -i 's/org.wisepersist.gradle.plugins.gwt.Style.DETAILED/org.wisepersist.gradle.plugins.gwt.Style.PRETTY/' ./web/build.gradle
 #        cat ./web/build.gradle
 # -Pgdetailed=false
+    - name: List all created files
+      run: ls -Ral   
       run: |
         cd ${{env.CPY}} 
         ./gradlew  :web:createSolverHtml :web:deployIntoWar :web:prepareS3Upload :web:mergeDeploy  -Pgdraft=true 
-    - name: List all created files
-      run: ls -Ral   
-    - name: cp   
+    - name: copy the files for the bundle  
       run: |
         mkdir zip-bundle
         mkdir zip-bundle/GeoGebra
@@ -65,44 +56,17 @@ jobs:
         cp ${{env.CPY}}/web/war/*.*  zip-bundle/GeoGebra/HTML5/5.0
  #   - name: Setup tmate sessions
  #     uses: mxschmitt/action-tmate@v3   
-    - name: Upload WebApp1 Build Artifact
-      uses: actions/upload-artifact@v2
-      with:
-        name: prettified-ggb-bundle
-        path: "./zip-bundle"
+    - name: Crete the zip for the bundle
     - uses: montudor/action-zip@v1
       with:
-        args: zip -qq -r release.zip  ./zip-bundle
-
-#??? :web:createDraftBundleZip        path: "./web/war/geogebra-large-bundle.zip"
-        
- #   - name: relase
- #     uses: "marvinpinto/action-automatic-releases@latest"
- #     with:
- #         repo_token: "${{ secrets.GITHUB_TOKEN }}"
- #         prerelease: false
- #         title: "bundle"
- #         automatic_release_tag: "latest"
- #         files: |
- #           ./zip-bundle/*
-  #  - name: Upload binaries to release
-  #    uses: svenstaro/upload-release-action@v2
-  #    with:
-  #      repo_token: ${{ secrets.GITHUB_TOKEN }}
-  #      file_glob: true
-  #      file: "./zip-bundle/*"
-  #      asset_name: mything
-  #      tag: ${{ github.ref }}
-  #      overwrite: true
-  #      body: "This is my release text"
+        args: zip -qq -r bundle-${{ steps.date.outputs.date }}.zip  ./zip-bundle
     - name: zipping
       uses: thedoctor0/zip-release@master
       with:
             filename: 'release.zip'
        #     exclusions: '*.git* /*node_modules/* .editorconfig'
             directory: ./zip-bundle
-            #################
-            
+            #################         
     - name: Create Release
       id: create_release
       uses: actions/create-release@v1
@@ -120,27 +84,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
           upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
-          asset_path: ./release.zip
-          asset_name: release.zip
+          asset_path: ./bundle-${{ steps.date.outputs.date }}.zip #release.zip
+          asset_name: bundle-${{ steps.date.outputs.date }}.zip #release.zip
           asset_content_type: application/zip
-            
-            ##############
-            
- #   - name: Upload to release
-#      uses: JasonEtco/upload-to-release@master
-#      with:
- #         args: release.zip application/zip
-  #    env:
-   #       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}            
- #   - name: Publish
- #     uses: softprops/action-gh-release@v1
- #     with:
-#          files: "release.zip"
-#      env:
- #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
- #   - name: other release
- #     uses: ncipollo/release-action@v1
- #     with:
- #       artifacts: "./zip-bundle/*"
- #       tag: "release-${{ steps.date.outputs.date }}"
- #       token: ${{ secrets.GITHUB_TOKEN }}
