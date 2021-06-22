@@ -38,13 +38,11 @@ jobs:
       run: chmod +x ${{env.CPY}}/gradlew
     - name: Build with Gradle 
       run: |
-        sed -i 's/org.wisepersist.gradle.plugins.gwt.Style.DETAILED/org.wisepersist.gradle.plugins.gwt.Style.PRETTY/' ./web/build.gradle
-#        cat ./web/build.gradle
         cd ${{env.CPY}} 
+        sed -i 's/org.wisepersist.gradle.plugins.gwt.Style.DETAILED/org.wisepersist.gradle.plugins.gwt.Style.PRETTY/' ./web/build.gradle
         ./gradlew  :web:createSolverHtml :web:deployIntoWar :web:prepareS3Upload :web:mergeDeploy   -Pgdraft=true  -Pgdetailed=true
-
+#        cat ./web/build.gradle
 #        ./gradlew  :desktop:compileJava #-Pusegpl=true 
-
     - name: List all created files
       run: ls -Ral   
       
