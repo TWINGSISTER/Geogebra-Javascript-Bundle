@@ -34,16 +34,27 @@ jobs:
       with:
         java-version: '11'
         distribution: 'adopt'
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+          tag_name: "tag-${{ steps.date.outputs.date }}" # ${{ github.ref }}
+          release_name: "release-${{ steps.date.outputs.date }}" #Release ${{ github.ref }}
+          draft: false
+          prerelease: false
     - name: Grant execute permission for gradlew
       run: chmod +x ${{env.CPY}}/gradlew
-    - name: Build with Gradle 
+   ############################################################## PRETTY
+    - name: Build with Gradle Pretty
       run: |
         cd ${{env.CPY}} 
         sed -i 's/org.wisepersist.gradle.plugins.gwt.Style.DETAILED/org.wisepersist.gradle.plugins.gwt.Style.PRETTY/' ./web/build.gradle
         ./gradlew  :web:createSolverHtml :web:deployIntoWar :web:prepareS3Upload :web:mergeDeploy   -Pgdraft=true  -Pgdetailed=true
 #        cat ./web/build.gradle
 #        ./gradlew  :desktop:compileJava #-Pusegpl=true 
-    - name: copy the files for the bundle  
+    - name: copy the files for the bundle PRETTY  
       run: |
         mkdir zip-bundle
         mkdir zip-bundle/GeoGebra
@@ -64,19 +75,107 @@ jobs:
     - name: zipping
       uses: thedoctor0/zip-release@master
       with:
-            filename: 'release-${{ steps.date.outputs.date }}.zip'
+            filename: 'release-pretty-${{ steps.date.outputs.date }}.zip'
        #     exclusions: '*.git* /*node_modules/* .editorconfig'
             directory: ./zip-bundle
-    - name: Create Release
-      id: create_release
-      uses: actions/create-release@v1
+    - name: Upload Release Asset Pretty
+      #id: upload-release-asset 
+      uses: actions/upload-release-asset@v1
       env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-          tag_name: "tag-${{ steps.date.outputs.date }}" # ${{ github.ref }}
-          release_name: "release-${{ steps.date.outputs.date }}" #Release ${{ github.ref }}
-          draft: false
-          prerelease: false
+          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+          asset_path: ./zip-bundle/release-pretty-${{ steps.date.outputs.date }}.zip
+          asset_name: release-pretty-${{ steps.date.outputs.date }}.zip
+          asset_content_type: application/zip
+################################################ OBF
+    - name: Build with Gradle OBF
+      run: |
+        cd ${{env.CPY}} 
+        ./gradlew  :web:createSolverHtml :web:deployIntoWar :web:prepareS3Upload :web:mergeDeploy   -Pgdraft=true  -Pgdetailed=false
+#        cat ./web/build.gradle
+#        ./gradlew  :desktop:compileJava #-Pusegpl=true 
+    - name: copy the files for the bundle OBF  
+      run: |
+        mkdir zip-bundle-obf
+        mkdir zip-bundle-obf/GeoGebra
+        mkdir zip-bundle-obf/GeoGebra/HTML5
+        mkdir zip-bundle-obf/GeoGebra/HTML5/5.0
+        cp -r ${{env.CPY}}/web/war/web3d zip-bundle-obf/GeoGebra/HTML5/5.0
+        cp -r ${{env.CPY}}/web/war/webSimple zip-bundle-obf/GeoGebra/HTML5/5.0
+        cp -r ${{env.CPY}}/web/war/web zip-bundle-obf/GeoGebra/HTML5/5.0
+        cp ${{env.CPY}}/web/war/deployggb.js  zip-bundle-obf/GeoGebra
+        cp ${{env.CPY}}/web/war/*.*  zip-bundle-obf/GeoGebra/HTML5/5.0
+ #   - name: Setup tmate sessions
+ #     uses: mxschmitt/action-tmate@v3   
+ # works just add one folder level in the zip abandoned
+ #   - name: Crete the zip for the bundle
+ #     uses: montudor/action-zip@v1
+ #     with:
+ #       args: zip -qq -r bundle-${{ steps.date.outputs.date }}.zip . -i ./zip-bundle/*
+    - name: zipping
+      uses: thedoctor0/zip-release@master
+      with:
+            filename: 'release-obf-${{ steps.date.outputs.date }}.zip'
+       #     exclusions: '*.git* /*node_modules/* .editorconfig'
+            directory: ./zip-bundle-obf
+    - name: Upload Release Asset OBF
+      #id: upload-release-asset 
+      uses: actions/upload-release-asset@v1
+      env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+          asset_path: ./zip-bundle/release-obf-${{ steps.date.outputs.date }}.zip
+          asset_name: release-obf-${{ steps.date.outputs.date }}.zip
+          asset_content_type: application/zip
+############################################################### Original          
+    - name: Build with Gradle Draft OBF
+      run: |
+        cd ${{env.CPY}} 
+        sed -i 's/org.wisepersist.gradle.plugins.gwt.Style.PRETTY/org.wisepersist.gradle.plugins.gwt.Style.DETAILED/' ./web/build.gradle
+        ./gradlew  :web:createDraftBundleZip  -Pgdraft=true 
+#        cat ./web/build.gradle
+#        ./gradlew  :desktop:compileJava #-Pusegpl=true 
+    - name: copy the files for the bundle ORIG  
+      run: |
+        mkdir zip-bundle-orig
+        cp ${{env.CPY}}/web/war/geogebra-bundle.zip  zip-bundle-orig/release-orig-${{ steps.date.outputs.date }}.zip
+        cp ${{env.CPY}}/web/war/deployggb.js  zip-bundle-orig
+#        mkdir zip-bundle-orig/GeoGebra
+#        mkdir zip-bundle-orig/GeoGebra/HTML5
+#        mkdir zip-bundle-orig/GeoGebra/HTML5/5.0
+#        cp -r ${{env.CPY}}/web/war/web3d zip-bundle/GeoGebra/HTML5/5.0
+#        cp -r ${{env.CPY}}/web/war/webSimple zip-bundle/GeoGebra/HTML5/5.0
+#        cp -r ${{env.CPY}}/web/war/web zip-bundle/GeoGebra/HTML5/5.0
+#        cp ${{env.CPY}}/web/war/deployggb.js  zip-bundle/GeoGebra
+ #   - name: Setup tmate sessions
+ #     uses: mxschmitt/action-tmate@v3   
+ # works just add one folder level in the zip abandoned
+ #   - name: Crete the zip for the bundle
+ #     uses: montudor/action-zip@v1
+ #     with:
+ #       args: zip -qq -r bundle-${{ steps.date.outputs.date }}.zip . -i ./zip-bundle/*
+    - name: Upload Release Asset Orig
+      #id: upload-release-asset 
+      uses: actions/upload-release-asset@v1
+      env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+          asset_path: ./zip-bundle-orig/release-orig-${{ steps.date.outputs.date }}.zip
+          asset_name: release-orig-${{ steps.date.outputs.date }}.zip
+          asset_content_type: application/zip
+    - name: Upload Release Asset Orig deploy
+      #id: upload-release-asset 
+      uses: actions/upload-release-asset@v1
+      env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+          asset_path: ./zip-bundle-orig/deployggb.js
+          asset_name: deployggb.js
+          asset_content_type: text/javascript
 #    - name: List all created files
 #      run: ls -Ral        
 #    - name: Upload Release Asset
@@ -89,13 +188,4 @@ jobs:
 #          asset_path: ./bundle-${{ steps.date.outputs.date }}.zip #release.zip
 #          asset_name: bundle-${{ steps.date.outputs.date }}.zip #release.zip
 #          asset_content_type: application/zip
-    - name: Upload Release Asset 
-      id: upload-release-asset 
-      uses: actions/upload-release-asset@v1
-      env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
-          asset_path: ./zip-bundle/release-${{ steps.date.outputs.date }}.zip
-          asset_name: release-${{ steps.date.outputs.date }}.zip
-          asset_content_type: application/zip
+
