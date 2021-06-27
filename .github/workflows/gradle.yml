@@ -138,12 +138,13 @@ jobs:
 #./gradlew  :web:createDraftBundleZip  -Pgdraft=true 
 #        cat ./web/build.gradle
 #        ./gradlew  :desktop:compileJava #-Pusegpl=true 
+    - name: unzip the files for the bundle ORIG  
+    - uses: montudor/action-zip@v1
+      with:
+             args: unzip -qq ${{env.CPY}}/web/war/geogebra-bundle.zip -d zip-bundle-orig
     - name: copy the files for the bundle ORIG  
       run: |
         mkdir zip-bundle-orig
-        - uses: montudor/action-zip@v1
-           with:
-             args: unzip -qq ${{env.CPY}}/web/war/geogebra-bundle.zip -d zip-bundle-orig
         cp ${{env.CPY}}/web/war/deployggb.js  zip-bundle-orig/GeoGebra
         cp -r ${{env.CPY}}/web/war/web3d zip-bundle-orig/GeoGebra/HTML5/5.0
         cp -r ${{env.CPY}}/web/war/webSimple zip-bundle-orig/GeoGebra/HTML5/5.0
