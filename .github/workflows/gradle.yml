@@ -135,6 +135,8 @@ jobs:
         cd ${{env.CPY}} 
         sed -i 's/org.wisepersist.gradle.plugins.gwt.Style.PRETTY/org.wisepersist.gradle.plugins.gwt.Style.DETAILED/' ./web/build.gradle
         ./gradlew :web:prepareS3Upload :web:createDraftBundleZip :web:mergeDeploy -Pgdraft=true  
+    - name: Build structure
+      run: |
         mkdir -p zip-bundle-obf
         mkdir -p zip-bundle-obf/GeoGebra
         mkdir -p zip-bundle-obf/GeoGebra/HTML5
@@ -148,7 +150,7 @@ jobs:
       with:
              args: unzip -qq ${{env.CPY}}/web/war/geogebra-bundle.zip -d ./zip-bundle-orig
     - name: chown
-      run: chown -R docker ./zip-bundle-orig     
+      run: chown -R runner ./zip-bundle-orig     
     - name: List all created files
       run: ls -Ral              
     
