@@ -147,6 +147,8 @@ jobs:
       uses: montudor/action-zip@v1
       with:
              args: unzip -qq ${{env.CPY}}/web/war/geogebra-bundle.zip -d ./zip-bundle-orig
+    - name: chown
+      run: chown -R docker ./zip-bundle-orig     
     - name: List all created files
       run: ls -Ral              
     
