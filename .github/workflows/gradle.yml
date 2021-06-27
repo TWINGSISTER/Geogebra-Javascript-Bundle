@@ -134,9 +134,8 @@ jobs:
       run: |
         cd ${{env.CPY}} 
         sed -i 's/org.wisepersist.gradle.plugins.gwt.Style.PRETTY/org.wisepersist.gradle.plugins.gwt.Style.DETAILED/' ./web/build.gradle
-		./gradlew :web:prepareS3Upload :web:createDraftBundleZip :web:mergeDeploy -Pgdraft=true
-
-	- name : list all
+	./gradlew :web:prepareS3Upload :web:createDraftBundleZip :web:mergeDeploy -Pgdraft=true
+- name : list all
 		run: ls -Ral
 #./gradlew  :web:createDraftBundleZip  -Pgdraft=true 
 #        cat ./web/build.gradle
