@@ -134,9 +134,16 @@ jobs:
       run: |
         cd ${{env.CPY}} 
         sed -i 's/org.wisepersist.gradle.plugins.gwt.Style.PRETTY/org.wisepersist.gradle.plugins.gwt.Style.DETAILED/' ./web/build.gradle
+<<<<<<< HEAD
         ./gradlew :web:prepareS3Upload :web:createDraftBundleZip :web:mergeDeploy -Pgdraft=true  
     - name: List all created files
       run: ls -Ral              
+=======
+	./gradlew   :web:prepareS3Upload :web:createDraftBundleZip :web:mergeDeploy -Pgdraft=true
+	./gradlew
+- name : list all
+		run: ls -Ral
+>>>>>>> branch 'main' of https://github.com/TWINGSISTER/Geogebra-Javascript-Bundle.git
 #./gradlew  :web:createDraftBundleZip  -Pgdraft=true 
 #        cat ./web/build.gradle
 #        ./gradlew  :desktop:compileJava #-Pusegpl=true 
