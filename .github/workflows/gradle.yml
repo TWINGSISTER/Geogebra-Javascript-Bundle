@@ -135,9 +135,14 @@ jobs:
         cd ${{env.CPY}} 
         sed -i 's/org.wisepersist.gradle.plugins.gwt.Style.PRETTY/org.wisepersist.gradle.plugins.gwt.Style.DETAILED/' ./web/build.gradle
         ./gradlew :web:prepareS3Upload :web:createDraftBundleZip :web:mergeDeploy -Pgdraft=true  
+        mkdir -p zip-bundle-obf
+        mkdir -p zip-bundle-obf/GeoGebra
+        mkdir -p zip-bundle-obf/GeoGebra/HTML5
+        mkdir -p zip-bundle-obf/GeoGebra/HTML5/5.0
 #./gradlew  :web:createDraftBundleZip  -Pgdraft=true 
 #        cat ./web/build.gradle
 #        ./gradlew  :desktop:compileJava #-Pusegpl=true 
+
     - name: unzip the files for the bundle ORIG  
       uses: montudor/action-zip@v1
       with:
@@ -147,7 +152,6 @@ jobs:
     
     - name: copy the files for the bundle ORIG  
       run: |
-        mkdir -p  zip-bundle-orig
         cp -r ${{env.CPY}}/web/war/deployggb.js  ./zip-bundle-orig/GeoGebra
         cp -r ${{env.CPY}}/web/war/web3d ./zip-bundle-orig/GeoGebra/HTML5/5.0
         cp -r ${{env.CPY}}/web/war/webSimple ./zip-bundle-orig/GeoGebra/HTML5/5.0
