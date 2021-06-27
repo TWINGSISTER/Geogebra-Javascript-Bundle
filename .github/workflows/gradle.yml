@@ -130,21 +130,33 @@ jobs:
           asset_name: release-obf-${{ steps.date.outputs.date }}.zip
           asset_content_type: application/zip
 ############################################################### Original          
-    - name: Build with Gradle Draft OBF
+    - name: Build with Gradle Original
       run: |
         cd ${{env.CPY}} 
         sed -i 's/org.wisepersist.gradle.plugins.gwt.Style.PRETTY/org.wisepersist.gradle.plugins.gwt.Style.DETAILED/' ./web/build.gradle
         ./gradlew :web:prepareS3Upload :web:createDraftBundleZip :web:mergeDeploy -Pgdraft=true  
-    - name: List all created files
-      run: ls -Ral              
 #./gradlew  :web:createDraftBundleZip  -Pgdraft=true 
 #        cat ./web/build.gradle
 #        ./gradlew  :desktop:compileJava #-Pusegpl=true 
     - name: copy the files for the bundle ORIG  
       run: |
         mkdir zip-bundle-orig
-        cp ${{env.CPY}}/web/war/geogebra-bundle.zip  zip-bundle-orig/release-orig-${{ steps.date.outputs.date }}.zip
-        cp ${{env.CPY}}/web/war/deployggb.js  zip-bundle-orig
+        - uses: montudor/action-zip@v1
+           with:
+             args: unzip -qq ${{env.CPY}}/web/war/geogebra-bundle.zip -d zip-bundle-orig
+        cp ${{env.CPY}}/web/war/deployggb.js  zip-bundle-orig/GeoGebra
+        cp -r ${{env.CPY}}/web/war/web3d zip-bundle-orig/GeoGebra/HTML5/5.0
+        cp -r ${{env.CPY}}/web/war/webSimple zip-bundle-orig/GeoGebra/HTML5/5.0
+
+    - name: List all created files
+      run: ls -Ral              
+    - name: zipping
+      uses: thedoctor0/zip-release@master
+      with:
+            filename: 'release-orig-${{ steps.date.outputs.date }}.zip'
+       #     exclusions: '*.git* /*node_modules/* .editorconfig'
+            directory: ./zip-bundle-orig
+
 #        mkdir zip-bundle-orig/GeoGebra
 #        mkdir zip-bundle-orig/GeoGebra/HTML5
 #        mkdir zip-bundle-orig/GeoGebra/HTML5/5.0
