@@ -51,9 +51,12 @@ jobs:
       run: |
         cd ${{env.CPY}} 
         sed -i 's/org.wisepersist.gradle.plugins.gwt.Style.DETAILED/org.wisepersist.gradle.plugins.gwt.Style.PRETTY/' ./web/build.gradle
-        ./gradlew  :web:createSolverHtml :web:deployIntoWar :web:prepareS3Upload :web:mergeDeploy   -Pgdraft=true  -Pgdetailed=true
+        ./gradlew :web:prepareS3Upload :web:createDraftBundleZip :web:mergeDeploy -Pgdraft=true  -Pgdetailed=true
+        unzip  -d ./zip-bundle ${{env.CPY}}/web/war/geogebra-bundle.zip 
+
 #        cat ./web/build.gradle
 #        ./gradlew  :desktop:compileJava #-Pusegpl=true 
+#        ./gradlew  :web:createSolverHtml :web:deployIntoWar :web:prepareS3Upload :web:mergeDeploy   -Pgdraft=true  -Pgdetailed=true
     - name: copy the files for the bundle PRETTY  
       run: |
         mkdir zip-bundle
@@ -64,8 +67,9 @@ jobs:
         cp -r ${{env.CPY}}/web/war/webSimple zip-bundle/GeoGebra/HTML5/5.0
         cp -r ${{env.CPY}}/web/war/web zip-bundle/GeoGebra/HTML5/5.0
         cp ${{env.CPY}}/web/war/deployggb.js  zip-bundle/GeoGebra
-        cp ${{env.CPY}}/web/war/*.*  zip-bundle/GeoGebra/HTML5/5.0
- #   - name: Setup tmate sessions
+#        cp ${{env.CPY}}/web/war/*.*  zip-bundle/GeoGebra/HTML5/5.0
+
+#   - name: Setup tmate sessions
  #     uses: mxschmitt/action-tmate@v3   
  # works just add one folder level in the zip abandoned
  #   - name: Crete the zip for the bundle
@@ -165,6 +169,7 @@ jobs:
         cp -r ${{env.CPY}}/web/war/web3d ./zip-bundle-orig/GeoGebra/HTML5/5.0
         cp -r ${{env.CPY}}/web/war/webSimple ./zip-bundle-orig/GeoGebra/HTML5/5.0
         cp -r ${{env.CPY}}/web/war/web ./zip-bundle-orig/GeoGebra/HTML5/5.0
+        cp -r index.html ./zip-bundle-orig
 
     - name: zipping
       uses: thedoctor0/zip-release@master
