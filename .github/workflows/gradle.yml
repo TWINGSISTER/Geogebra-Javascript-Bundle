@@ -153,11 +153,11 @@ jobs:
 #             args: unzip -qq ${{env.CPY}}/web/war/geogebra-bundle.zip -d ./zip-bundle-orig
 #    - name: chown
 #      run: chown -R runner ./zip-bundle-orig     
-    - name: Setup tmate sessions
-      uses: mxschmitt/action-tmate@v3   
+#    - name: Setup tmate sessions
+#      uses: mxschmitt/action-tmate@v3   
 
-    - name: List all created files
-      run: ls -Ral              
+#    - name: List all created files
+#      run: ls -Ral              
     
     - name: copy the files for the bundle ORIG  
       run: |
