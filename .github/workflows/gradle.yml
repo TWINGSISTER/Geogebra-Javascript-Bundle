@@ -164,6 +164,7 @@ jobs:
         cp -r ${{env.CPY}}/web/war/deployggb.js  ./zip-bundle-orig/GeoGebra
         cp -r ${{env.CPY}}/web/war/web3d ./zip-bundle-orig/GeoGebra/HTML5/5.0
         cp -r ${{env.CPY}}/web/war/webSimple ./zip-bundle-orig/GeoGebra/HTML5/5.0
+        cp -r ${{env.CPY}}/web/war/web ./zip-bundle-orig/GeoGebra/HTML5/5.0
 
     - name: zipping
       uses: thedoctor0/zip-release@master
