@@ -55,7 +55,7 @@ jobs:
     - name: Setup tmate sessions
       uses: mxschmitt/action-tmate@v3   
 
-        unzip  -d ./zip-bundle ${{env.CPY}}/web/war/geogebra-bundle.zip 
+ #       unzip  -d ./zip-bundle ${{env.CPY}}/web/war/geogebra-bundle.zip 
 
 #        cat ./web/build.gradle
 #        ./gradlew  :desktop:compileJava #-Pusegpl=true 
