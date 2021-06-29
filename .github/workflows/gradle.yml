@@ -77,8 +77,8 @@ jobs:
 
 #        cp ${{env.CPY}}/web/war/*.*  zip-bundle/GeoGebra/HTML5/5.0
 
-    - name: Setup tmate sessions
-      uses: mxschmitt/action-tmate@v3   
+#    - name: Setup tmate sessions
+#       uses: mxschmitt/action-tmate@v3   
  # works just add one folder level in the zip abandoned
  #   - name: Crete the zip for the bundle
  #     uses: montudor/action-zip@v1
@@ -173,7 +173,7 @@ jobs:
     - name: get this repo
       uses: actions/checkout@v2
       with :
-        repository: TWINGSISTER/Geogebra-Javascript-Bundle
+#        repository: TWINGSISTER/Geogebra-Javascript-Bundle
         ref: master
         path: ${{env.CPY}}/this
 
