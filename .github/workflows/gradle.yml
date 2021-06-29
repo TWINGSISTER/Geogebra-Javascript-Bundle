@@ -66,11 +66,12 @@ jobs:
         mkdir -p zip-bundle/GeoGebra/HTML5
         mkdir -p zip-bundle/GeoGebra/HTML5/5.0
         unzip  -d ./zip-bundle ${{env.CPY}}/web/war/geogebra-bundle.zip 
-
-        cp -r ${{env.CPY}}/web/war/web3d zip-bundle/GeoGebra/HTML5/5.0
         cp -r ${{env.CPY}}/web/war/webSimple zip-bundle/GeoGebra/HTML5/5.0
         cp -r ${{env.CPY}}/web/war/web zip-bundle/GeoGebra/HTML5/5.0
         cp ${{env.CPY}}/web/war/deployggb.js  zip-bundle/GeoGebra
+#       cp -r index.html ./zip-bundle-orig
+
+#        cp -r ${{env.CPY}}/web/war/web3d zip-bundle/GeoGebra/HTML5/5.0
 
 #        cp ${{env.CPY}}/web/war/*.*  zip-bundle/GeoGebra/HTML5/5.0
 
@@ -171,10 +172,10 @@ jobs:
     - name: copy the files for the bundle ORIG  
       run: |
         cp -r ${{env.CPY}}/web/war/deployggb.js  ./zip-bundle-orig/GeoGebra
-        cp -r ${{env.CPY}}/web/war/web3d ./zip-bundle-orig/GeoGebra/HTML5/5.0
         cp -r ${{env.CPY}}/web/war/webSimple ./zip-bundle-orig/GeoGebra/HTML5/5.0
         cp -r ${{env.CPY}}/web/war/web ./zip-bundle-orig/GeoGebra/HTML5/5.0
         cp -r index.html ./zip-bundle-orig
+#        cp -r ${{env.CPY}}/web/war/web3d ./zip-bundle-orig/GeoGebra/HTML5/5.0
 
     - name: zipping
       uses: thedoctor0/zip-release@master
