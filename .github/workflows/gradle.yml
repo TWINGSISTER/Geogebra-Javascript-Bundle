@@ -66,10 +66,11 @@ jobs:
         mkdir -p zip-bundle/GeoGebra/HTML5
         mkdir -p zip-bundle/GeoGebra/HTML5/5.0
         unzip  -d ./zip-bundle ${{env.CPY}}/web/war/geogebra-bundle.zip 
-        cp -r ${{env.CPY}}/web/war/web zip-bundle/GeoGebra/HTML5/5.0
         cp ${{env.CPY}}/web/war/deployggb.js  zip-bundle/GeoGebra
 #       cp -r index.html ./zip-bundle-orig
 #       cp -r ${{env.CPY}}/web/war/webSimple zip-bundle/GeoGebra/HTML5/5.0
+#        cp -r ${{env.CPY}}/web/war/web zip-bundle/GeoGebra/HTML5/5.0
+
 
 
 #        cp -r ${{env.CPY}}/web/war/web3d zip-bundle/GeoGebra/HTML5/5.0
