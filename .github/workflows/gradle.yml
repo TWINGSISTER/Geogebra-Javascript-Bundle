@@ -171,7 +171,6 @@ jobs:
 #    - name: List all created files
 #      run: ls -Ral              
     - name: get this repo
-      id: date
       uses: actions/checkout@v2
       with :
         repository: TWINGSISTER/Geogebra-Javascript-Bundle
