@@ -52,8 +52,8 @@ jobs:
         cd ${{env.CPY}} 
         sed -i 's/org.wisepersist.gradle.plugins.gwt.Style.DETAILED/org.wisepersist.gradle.plugins.gwt.Style.PRETTY/' ./web/build.gradle
         ./gradlew :web:prepareS3Upload :web:createDraftBundleZip :web:mergeDeploy -Pgdraft=true  -Pgdetailed=true
-    - name: Setup tmate sessions
-      uses: mxschmitt/action-tmate@v3   
+  #  - name: Setup tmate sessions
+  #    uses: mxschmitt/action-tmate@v3   
 
 
 #        cat ./web/build.gradle
