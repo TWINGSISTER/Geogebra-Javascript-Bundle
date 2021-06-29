@@ -55,25 +55,27 @@ jobs:
     - name: Setup tmate sessions
       uses: mxschmitt/action-tmate@v3   
 
- #       unzip  -d ./zip-bundle ${{env.CPY}}/web/war/geogebra-bundle.zip 
 
 #        cat ./web/build.gradle
 #        ./gradlew  :desktop:compileJava #-Pusegpl=true 
 #        ./gradlew  :web:createSolverHtml :web:deployIntoWar :web:prepareS3Upload :web:mergeDeploy   -Pgdraft=true  -Pgdetailed=true
     - name: copy the files for the bundle PRETTY  
       run: |
-        mkdir zip-bundle
-        mkdir zip-bundle/GeoGebra
-        mkdir zip-bundle/GeoGebra/HTML5
-        mkdir zip-bundle/GeoGebra/HTML5/5.0
+        mkdir -p zip-bundle
+        mkdir -p zip-bundle/GeoGebra
+        mkdir -p zip-bundle/GeoGebra/HTML5
+        mkdir -p zip-bundle/GeoGebra/HTML5/5.0
+        unzip  -d ./zip-bundle ${{env.CPY}}/web/war/geogebra-bundle.zip 
+
         cp -r ${{env.CPY}}/web/war/web3d zip-bundle/GeoGebra/HTML5/5.0
         cp -r ${{env.CPY}}/web/war/webSimple zip-bundle/GeoGebra/HTML5/5.0
         cp -r ${{env.CPY}}/web/war/web zip-bundle/GeoGebra/HTML5/5.0
         cp ${{env.CPY}}/web/war/deployggb.js  zip-bundle/GeoGebra
+
 #        cp ${{env.CPY}}/web/war/*.*  zip-bundle/GeoGebra/HTML5/5.0
 
-#   - name: Setup tmate sessions
- #     uses: mxschmitt/action-tmate@v3   
+    - name: Setup tmate sessions
+      uses: mxschmitt/action-tmate@v3   
  # works just add one folder level in the zip abandoned
  #   - name: Crete the zip for the bundle
  #     uses: montudor/action-zip@v1
