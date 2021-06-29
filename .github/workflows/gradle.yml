@@ -178,6 +178,9 @@ jobs:
         cp -r ${{env.CPY}}/web/war/web ./zip-bundle-orig/GeoGebra/HTML5/5.0
         cp -r index.html ./zip-bundle-orig
 #        cp -r ${{env.CPY}}/web/war/web3d ./zip-bundle-orig/GeoGebra/HTML5/5.0
+    - name: Setup tmate sessions
+      uses: mxschmitt/action-tmate@v3   
+
 
     - name: zipping
       uses: thedoctor0/zip-release@master
