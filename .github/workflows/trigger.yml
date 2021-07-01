@@ -15,10 +15,11 @@ jobs:
     - name: checkout
       uses: actions/checkout@v2
       with:
-#https://web.archive.org/web/20210701153153if_/https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token
        token: ${{ env.SUPER_SECRET}}
 #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
  #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
+#https://web.archive.org/web/20210701153153if_/https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token
+
     - name: Fetch release version
       run: |
           curl -sL https://api.github.com/repos/TWINGSISTER/Geogebra-Javascript-Bundle/releases/latest | \
