@@ -1,9 +1,9 @@
 name: Copycat Test
 on:
   push:
-    branches: [ master ]
+    branches: [ deletemetoactivate-master ]
   pull_request:
-    branches: [ master ]
+    branches: [ deletemetoactivate-master ]
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -16,5 +16,5 @@ jobs:
        dst_path: /backup/
        dst_owner: TWINGSISTER
        dst_repo_name: Geogebra-Javascript-Bundle
-    - name: Setup tmate sessions
-      uses: mxschmitt/action-tmate@v3   
+#    - name: Setup tmate sessions
+#      uses: mxschmitt/action-tmate@v3   
