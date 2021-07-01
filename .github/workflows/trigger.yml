@@ -4,6 +4,8 @@ on:
     - cron:  '*/1 * * * *' #'0 10 * * *'
   push:
     branches: [ master ]
+env:
+      SUPER_SECRET: ${{ secrets.REPO_SCOPED_TOKEN}}
 jobs:
   get-version:
     runs-on: ubuntu-latest
@@ -14,7 +16,7 @@ jobs:
       uses: actions/checkout@v2
       with:
 #https://web.archive.org/web/20210701153153if_/https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token
-       token: ${{ secrets.REPO_SCOPED_TOKEN }}
+       token: ${{ env.SUPER_SECRET}}
 #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
  #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
     - name: Fetch release version
