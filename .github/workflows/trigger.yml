@@ -8,25 +8,28 @@ jobs:
   get-version:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-        with:
+    - name: Setup tmate sessions
+      uses: mxschmitt/action-tmate@v3   
+    - name: checkout
+      uses: actions/checkout@v2
+      with:
 #https://web.archive.org/web/20210701153153if_/https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token
-          token: ${{ secrets.REPO_SCOPED_TOKEN }}
+       token: ${{ secrets.REPO_SCOPED_TOKEN }}
 #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
  #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
-      - name: Fetch release version
-        run: |
+    - name: Fetch release version
+      run: |
           curl -sL https://api.github.com/repos/TWINGSISTER/Geogebra-Javascript-Bundle/releases/latest | \
           jq -r ".tag_name" > release-versions/bundle-latest.txt
-      - name: Check for modified files
-        id: git-check
-        run: echo ::set-output name=modified::$([ -z "`git status --porcelain`" ] && echo "false" || echo "true")
-      - name: Commit latest release version
-        if: steps.git-check.outputs.modified == 'true'
-        run: |
+    - name: Check for modified files
+      id: git-check
+      run: echo ::set-output name=modified::$([ -z "`git status --porcelain`" ] && echo "false" || echo "true")
+    - name: Commit latest release version
+      if: steps.git-check.outputs.modified == 'true'
+      run: |
           git config --global user.name 'twingsister'
           git config --global user.email 'twingsister@users.noreply.github.com'
           git commit -am "New release version"
           git push
-      - name: Setup tmate sessions
-        uses: mxschmitt/action-tmate@v3   
+    - name: Setup tmate sessions
+      uses: mxschmitt/action-tmate@v3   
