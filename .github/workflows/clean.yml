@@ -9,15 +9,15 @@ jobs:
   
     runs-on: ubuntu-latest
     steps:
-    - name: Clean all the releases
-      id: date
-      uses: actions/checkout@v2
-      with :
-        repository: TWINGSISTER/Geogebra-Javascript-Bundle
-        ref: master
-        path: ${{env.CPY}}
-    - name: Setup tmate sessions
-      uses: mxschmitt/action-tmate@v3   
+#    - name: Clean all the releases
+#      id: date
+#      uses: actions/checkout@v2
+#      with :
+#        repository: TWINGSISTER/Geogebra-Javascript-Bundle
+#        ref: master
+#        path: ${{env.CPY}}
+#    - name: Setup tmate sessions
+#      uses: mxschmitt/action-tmate@v3   
     - name: delete all
       run: |
         gh release list | sed 's/|/ /' | awk '{print $1, $8}' | while read -r line; do gh release delete -y "$line"; done
