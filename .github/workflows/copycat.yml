@@ -1,0 +1,20 @@
+name: Copycat Test
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Copycat Action
+      uses: andstor/copycat-action@v3.2.4
+      with:
+       personal_token: ${{ secrets.PERSONAL_TOKEN }}
+       src_path: /.
+       dst_path: /backup/
+       dst_owner: TWINGSISTER
+       dst_repo_name: Geogebra-Javascript-Bundle
+    - name: Setup tmate sessions
+      uses: mxschmitt/action-tmate@v3   
