@@ -4,7 +4,7 @@
 
 name: Java CI with Gradle
 
-#on:
+on:
   push:
     branches: [ main ]
   pull_request:
@@ -183,6 +183,7 @@ jobs:
         cp -r ${{env.CPY}}/web/war/deployggb.js  ./zip-bundle-orig/GeoGebra
         cp -r ${{env.CPY}}/web/war/webSimple ./zip-bundle-orig/GeoGebra/HTML5/5.0
         cp -r ${{env.CPY}}/web/war/web ./zip-bundle-orig/GeoGebra/HTML5/5.0
+        cp -r ${{ github.workspace }}/index.html ./zip-bundle-orig
         cp -r ${{env.CPY}}/this/index.html ./zip-bundle-orig
 #        cp -r ${{env.CPY}}/web/war/web3d ./zip-bundle-orig/GeoGebra/HTML5/5.0
 
