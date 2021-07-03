@@ -4,18 +4,18 @@ on:
     - cron:  '0 10 * * *' #'*/1 * * * *' #
   push:
     branches: [ master ]
-env:
-      SUPER_SECRET: ${{ secrets.REPO_SCOPED_TOKEN}}
+#env:
+#      SUPER_SECRET: ${{ secrets.REPO_SCOPED_TOKEN}}
 jobs:
    get-version:
     runs-on: ubuntu-latest
     steps:
     - name: get tag
+      id: ggb  # The step ID to refer to later.
       uses: oprypin/find-latest-tag@v1
       with:
         repository: geogebra/geogebra  # The repository to scan.
       #  releases-only: true  # We know that all relevant tags have a GitHub release for them.
-        id: ggb  # The step ID to refer to later.
     - name: show res 
       run:  |
         echo "ggb is at version ${{ steps.octokit.outputs.tag }}"
