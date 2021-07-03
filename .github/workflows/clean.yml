@@ -1,34 +1,29 @@
 on:
   push:
     branches: [ master ]
-env:
-  CPY: './thiscopy'
+  schedule:
+    # * is a special character in YAML so you have to quote this string
+    - cron:  '0 0 1 * *' # every month
 jobs:
 
   build:
   
     runs-on: ubuntu-latest
     steps:
-#    - name: Clean all the releases
-#      id: date
-#      uses: actions/checkout@v2
-#      with :
-#        repository: TWINGSISTER/Geogebra-Javascript-Bundle
-#        ref: master
-#        path: ${{env.CPY}}
     - name: delete action
       uses: dev-drprasad/delete-older-releases@v0.2.0
       with:
         repo: TWINGSISTER/Geogebra-Javascript-Bundle # defaults to current repo
-        keep_latest: 3
+        keep_latest: 12
         delete_tags: true
         #delete_tag_pattern: beta # defaults to ""
       env:
        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}    
-    - name: Setup tmate sessions
-      uses: mxschmitt/action-tmate@v3   
-    - name: delete all
-      run: |
-        gh release list | sed 's/|/ /' | awk '{print $1, $8}' | while read -r line; do gh release delete -y "$line"; done
-        git fetch
-        git tag -l | xargs -n 1 git push --delete origin
+#    - name: Setup tmate sessions
+#      uses: mxschmitt/action-tmate@v3   
+# this do not works, not finding the repo ???
+#    - name: delete all
+#      run: |
+#        gh release list | sed 's/|/ /' | awk '{print $1, $8}' | while read -r line; do gh release delete -y "$line"; done
+#        git fetch
+#        git tag -l | xargs -n 1 git push --delete origin
