@@ -18,8 +18,8 @@ jobs:
       #  releases-only: true  # We know that all relevant tags have a GitHub release for them.
     - name: show res 
       run:  |
-        echo "ggb is at version ${{ steps.octokit.outputs.tag }}"
-        echo "ggb is at version ${{ steps.octokit.outputs.tag }}" >foo
+        echo "ggb is at version ${{ steps.ggb.outputs.tag }}"
+        echo "ggb is at version ${{ steps.ggb.outputs.tag }}" >foo
 #    - name: Setup tmate sessions
 #      uses: mxschmitt/action-tmate@v3   
     - name: checkout
