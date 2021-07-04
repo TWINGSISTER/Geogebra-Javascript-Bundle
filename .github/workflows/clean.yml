@@ -17,8 +17,8 @@ jobs:
         keep_latest: 12
         delete_tags: true
         #delete_tag_pattern: beta # defaults to ""
-      env:
-       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}    
+#      env:
+#       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}    
 #    - name: Setup tmate sessions
 #      uses: mxschmitt/action-tmate@v3   
 # this do not works, not finding the repo ???
