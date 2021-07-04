@@ -93,13 +93,8 @@ jobs:
 #       cp -r index.html ./zip-bundle-orig
 #       cp -r ${{env.CPY}}/web/war/webSimple zip-bundle/GeoGebra/HTML5/5.0
 #        cp -r ${{env.CPY}}/web/war/web zip-bundle/GeoGebra/HTML5/5.0
-
-
-
 #        cp -r ${{env.CPY}}/web/war/web3d zip-bundle/GeoGebra/HTML5/5.0
-
 #        cp ${{env.CPY}}/web/war/*.*  zip-bundle/GeoGebra/HTML5/5.0
-
 #    - name: Setup tmate sessions
 #       uses: mxschmitt/action-tmate@v3   
  # works just add one folder level in the zip abandoned
