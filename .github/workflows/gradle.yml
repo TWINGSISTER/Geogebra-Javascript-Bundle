@@ -7,8 +7,8 @@ name: Java CI with Gradle
 on:
   push:
     branches: [ master ]
-    paths:
-      - 'release-versions/*'
+#    paths:
+#      - 'release-versions/*'
 
   pull_request:
     branches: [ master ]
@@ -30,11 +30,20 @@ jobs:
       with:
         repository: geogebra/geogebra  # The repository to scan.
 #${{ steps.ggb.outputs.tag }}
+    - name: Fetch tag for latest release version
+      id: lastrelease
+      run: |
+        curl -sL https://api.github.com/repos/TWINGSISTER/Geogebra-Javascript-Bundle/releases/latest | \
+          jq -r ".tag_name"> releasetag
+        echo ::set-output name=TAGNAME::$(cat releasetag)
+    - name: bail out?
+      if:  steps.lastrelease.outputs.TAGNAME == steps.ggb.outputs.tag 
+       run exit 1
     - name: Get current date
       id: date
       run: echo "::set-output name=date::$(date +'%Y-%m-%d-%H-%M-%S')"
-    - name: go for the name
-      run: echo "release-${{ steps.date.outputs.date }}"
+#    - name: go for the name
+#      run: echo "release-${{ steps.date.outputs.date }}"
     - name: get orig
       uses: actions/checkout@v2
       with :
