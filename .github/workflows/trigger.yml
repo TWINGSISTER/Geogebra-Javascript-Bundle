@@ -29,10 +29,10 @@ jobs:
     - name: initialization
       #if: failure()
       id: init
-      uses: TWINGSISTER/set-persistent-value@v1
+      uses: TWINGSISTER/assign-persistent-value@v1
       #uses: aaimio/set-persistent-value@v1
       with:
-       key: foa
+       key: foo
        value: "new"
        #access_token: ${{ secrets.PERSISTENT_VALUE_ACCESS_TOKEN }}
     - name: Some other step
