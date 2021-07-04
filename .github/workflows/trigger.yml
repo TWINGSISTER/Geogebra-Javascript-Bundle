@@ -74,8 +74,9 @@ jobs:
     - name: Fetch tag for latest release version
       id: lastrelease
       run: |
-       echo '::set-output name=TAGNAME::curl -sL https://api.github.com/repos/TWINGSISTER/Geogebra-Javascript-Bundle/releases/latest | \
-          jq -r ".tag_name"'
+        curl -sL https://api.github.com/repos/TWINGSISTER/Geogebra-Javascript-Bundle/releases/latest | \
+          jq -r ".tag_name"> releasetag
+        echo ::set-output name=TAGNAME::$(cat releasetag)
 #    - name: Check for modified files
 #      id: git-check
 #      run: echo ::set-output name=modified::$([ -z "`git status --porcelain`" ] && echo "false" || echo "true")
