@@ -15,7 +15,7 @@ jobs:
       uses: oprypin/find-latest-tag@v1
       with:
         repository: geogebra/geogebra  # The repository to scan.
-      #  releases-only: true  # We know that all relevant tags have a GitHub release for them.
+      #  releases-only: true   # We know that all relevant tags have a GitHub release for them.
     - name: show res 
       run:  |
         echo "ggb is at version ${{ steps.ggb.outputs.tag }}"
