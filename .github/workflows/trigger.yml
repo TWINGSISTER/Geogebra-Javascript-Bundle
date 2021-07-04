@@ -20,49 +20,49 @@ jobs:
       run:  |
         echo "ggb is at version ${{ steps.ggb.outputs.tag }}"
 #        echo "ggb is at version ${{ steps.ggb.outputs.tag }}" >foo
-    - name: Get a persistent value  
-      id: get_persistent_value
-      uses: aaimio/get-persistent-value@v1
-      with:
-        key: foo
-        access_token: ${{ secrets.PERSISTENT_VALUE_ACCESS_TOKEN }}
-    - name: checkout assign action
-      uses: actions/checkout@v2
-      with:
-       repository: TWINGSISTER/assign-persistent-value
-       ref: refs/heads/master
-       path: ./.github/actions/assign
-       token: ${{ secrets.PAT_REPOS }}
-    - name: initialization
+#    - name: Get a persistent value  
+#      id: get_persistent_value
+#      uses: aaimio/get-persistent-value@v1
+#      with:
+#        key: foo
+#        access_token: ${{ secrets.PERSISTENT_VALUE_ACCESS_TOKEN }}
+#    - name: checkout assign action
+#      uses: actions/checkout@v2
+#      with:
+#       repository: TWINGSISTER/assign-persistent-value
+#       ref: refs/heads/master
+#       path: ./.github/actions/assign
+#       token: ${{ secrets.PAT_REPOS }}
+#    - name: initialization
       #if: failure()
-      id: init
+#      id: init
       #./.github/actions/
-      uses: ./.github/actions/assign
+ #     uses: ./.github/actions/assign
       #uses: TWINGSISTER/assign-persistent-value@v1
       #uses: aaimio/set-persistent-value@v1
-      with:
-       key: foo
-       value: "new"
+#      with:
+#       key: foo
+#       value: "new"
        #access_token: ${{ secrets.PERSISTENT_VALUE_ACCESS_TOKEN }}
-    - name: Some other step
-      run: |
-        echo ${{ steps.get_persistent_value.outputs.value }}
-    - name: Set a persistent value
-      if: steps.get_persistent_value.outputs.value != steps.ggb.outputs.tag 
-      id: set_persistent_value
-      uses: aaimio/set-persistent-value@v1
+#    - name: Some other step
+#      run: |
+#        echo ${{ steps.get_persistent_value.outputs.value }}
+#    - name: Set a persistent value
+#      if: steps.get_persistent_value.outputs.value != steps.ggb.outputs.tag 
+#      id: set_persistent_value
+#      uses: aaimio/set-persistent-value@v1
       #uses: TWINGSISTER/assign-persistent-value@v1
-      with:
-       key: foo
-       value: ${{ steps.ggb.outputs.tag }}
-       access_token: ${{ secrets.PERSISTENT_VALUE_ACCESS_TOKEN }}
+#      with:
+#       key: foo
+#       value: ${{ steps.ggb.outputs.tag }}
+#       access_token: ${{ secrets.PERSISTENT_VALUE_ACCESS_TOKEN }}
 #    - name: Setup tmate sessions
 #      uses: mxschmitt/action-tmate@v3   
-    - name: checkout
-      uses: actions/checkout@v2
-      with:
-       repository: TWINGSISTER/-action
-       ref: refs/heads/master
+#    - name: checkout
+#      uses: actions/checkout@v2
+#      with:
+#       repository: TWINGSISTER/-action
+#       ref: refs/heads/master
 #       token: ${{ env.SUPER_SECRET}}
 #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
  #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
@@ -71,15 +71,19 @@ jobs:
 #    - name: Setup tmate sessions
 #      uses: mxschmitt/action-tmate@v3   
 
-#    - name: Fetch release version
-#      run: |
-#          curl -sL https://api.github.com/repos/TWINGSISTER/Geogebra-Javascript-Bundle/releases/latest | \
-#          jq -r ".tag_name" > release-versions/bundle-latest.txt
+    - name: Fetch tag for latest release version
+      id: lastrelease
+      run: |
+          curl -sL https://api.github.com/repos/TWINGSISTER/Geogebra-Javascript-Bundle/releases/latest | \
+          jq -r ".tag_name" |'::set-output name=TAGNAME::green' > release-versions/bundle-latest.txt
+
+
+
 #    - name: Check for modified files
 #      id: git-check
 #      run: echo ::set-output name=modified::$([ -z "`git status --porcelain`" ] && echo "false" || echo "true")
     - name: Commit latest release version
-      if: steps.get_persistent_value.outputs.value != steps.ggb.outputs.tag 
+      if:  steps.lastrelease.outputs.TAGNAME != steps.ggb.outputs.tag 
       run: |
           git config --global user.name 'twingsister'
           git config --global user.email 'twingsister@users.noreply.github.com'
