@@ -26,6 +26,14 @@ jobs:
       with:
         key: foo
         access_token: ${{ secrets.PERSISTENT_VALUE_ACCESS_TOKEN }}
+    - name: initialization
+      if: failure()
+      id: init
+      uses: aaimio/set-persistent-value@v1
+      with:
+       key: foo
+       value: "new"
+       access_token: ${{ secrets.PERSISTENT_VALUE_ACCESS_TOKEN }}
     - name: Some other step
       run: |
         echo ${{ steps.get_persistent_value.outputs.value }}
