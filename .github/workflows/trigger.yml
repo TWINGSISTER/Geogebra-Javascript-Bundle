@@ -55,8 +55,8 @@ jobs:
  #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
 #https://web.archive.org/web/20210701153153if_/https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token
 
-    - name: Setup tmate sessions
-      uses: mxschmitt/action-tmate@v3   
+#    - name: Setup tmate sessions
+#      uses: mxschmitt/action-tmate@v3   
 
 #    - name: Fetch release version
 #      run: |
