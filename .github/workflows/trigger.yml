@@ -29,8 +29,8 @@ jobs:
     - name: Some other step
       run: |
         echo ${{ steps.get_persistent_value.outputs.value }}
-      if: steps.get_persistent_value.outputs.value != steps.ggb.outputs.tag 
     - name: Set a persistent value
+      if: steps.get_persistent_value.outputs.value != steps.ggb.outputs.tag 
       id: set_persistent_value
       uses: aaimio/set-persistent-value@v1
       with:
