@@ -31,11 +31,12 @@ jobs:
       with:
        repository: TWINGSISTER/assign-persistent-value
        ref: refs/heads/master
+       path: ./assign-persist
     - name: initialization
       #if: failure()
       id: init
       #./.github/actions/
-      uses: ./action.yml
+      uses: ./assign-persist/action.yml
       #uses: TWINGSISTER/assign-persistent-value@v1
       #uses: aaimio/set-persistent-value@v1
       with:
