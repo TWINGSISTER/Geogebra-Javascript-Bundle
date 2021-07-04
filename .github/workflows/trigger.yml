@@ -29,7 +29,7 @@ jobs:
     - name: initialization
       #if: failure()
       id: init
-      uses: TWINGSISTER/assign-persistent-value@v1
+      uses: TWINGSISTER/set-persistent-value@v1
       #uses: aaimio/set-persistent-value@v1
       with:
        key: foo
