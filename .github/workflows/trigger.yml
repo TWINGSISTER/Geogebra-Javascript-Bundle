@@ -27,13 +27,14 @@ jobs:
         key: foo
         access_token: ${{ secrets.PERSISTENT_VALUE_ACCESS_TOKEN }}
     - name: initialization
-      if: failure()
+      #if: failure()
       id: init
-      uses: aaimio/set-persistent-value@v1
+      uses: TWINGSISTER/assign-persistent-value@v1
+      #uses: aaimio/set-persistent-value@v1
       with:
        key: foo
        value: "new"
-       access_token: ${{ secrets.PERSISTENT_VALUE_ACCESS_TOKEN }}
+       #access_token: ${{ secrets.PERSISTENT_VALUE_ACCESS_TOKEN }}
     - name: Some other step
       run: |
         echo ${{ steps.get_persistent_value.outputs.value }}
@@ -41,6 +42,7 @@ jobs:
       if: steps.get_persistent_value.outputs.value != steps.ggb.outputs.tag 
       id: set_persistent_value
       uses: aaimio/set-persistent-value@v1
+      #uses: TWINGSISTER/assign-persistent-value@v1
       with:
        key: foo
        value: ${{ steps.ggb.outputs.tag }}
