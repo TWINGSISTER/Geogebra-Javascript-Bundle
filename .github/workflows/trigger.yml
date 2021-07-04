@@ -32,7 +32,7 @@ jobs:
       uses: TWINGSISTER/set-persistent-value@v1
       #uses: aaimio/set-persistent-value@v1
       with:
-       key: foo
+       key: foa
        value: "new"
        #access_token: ${{ secrets.PERSISTENT_VALUE_ACCESS_TOKEN }}
     - name: Some other step
