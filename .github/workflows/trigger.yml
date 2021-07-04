@@ -19,11 +19,28 @@ jobs:
     - name: show res 
       run:  |
         echo "ggb is at version ${{ steps.ggb.outputs.tag }}"
-        echo "ggb is at version ${{ steps.ggb.outputs.tag }}" >foo
+#        echo "ggb is at version ${{ steps.ggb.outputs.tag }}" >foo
+    - name: Get a persistent value
+      id: get_persistent_value
+      uses: aaimio/get-persistent-value@v1
+      with:
+        key: foo
+        access_token: ${{ secrets.PERSISTENT_VALUE_ACCESS_TOKEN }}
+    - name: Some other step
+      run: |
+        echo ${{ steps.get_persistent_value.outputs.value }}
+      if: steps.get_persistent_value.outputs.value != steps.ggb.outputs.tag 
+    - name: Set a persistent value
+      id: set_persistent_value
+      uses: aaimio/set-persistent-value@v1
+      with:
+       key: foo
+       value: ${{ steps.ggb.outputs.tag }}
+       access_token: ${{ secrets.PERSISTENT_VALUE_ACCESS_TOKEN }}
 #    - name: Setup tmate sessions
 #      uses: mxschmitt/action-tmate@v3   
-    - name: checkout
-      uses: actions/checkout@v2
+#    - name: checkout
+#      uses: actions/checkout@v2
 #      with:
 #       token: ${{ env.SUPER_SECRET}}
 #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
@@ -37,11 +54,11 @@ jobs:
 #      run: |
 #          curl -sL https://api.github.com/repos/TWINGSISTER/Geogebra-Javascript-Bundle/releases/latest | \
 #          jq -r ".tag_name" > release-versions/bundle-latest.txt
-    - name: Check for modified files
-      id: git-check
-      run: echo ::set-output name=modified::$([ -z "`git status --porcelain`" ] && echo "false" || echo "true")
-    - name: Commit latest release version
-      if: steps.git-check.outputs.modified == 'true'
+#    - name: Check for modified files
+#      id: git-check
+#      run: echo ::set-output name=modified::$([ -z "`git status --porcelain`" ] && echo "false" || echo "true")
+#    - name: Commit latest release version
+      if: steps.get_persistent_value.outputs.value != steps.ggb.outputs.tag 
       run: |
           git config --global user.name 'twingsister'
           git config --global user.email 'twingsister@users.noreply.github.com'
