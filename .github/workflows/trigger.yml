@@ -20,7 +20,7 @@ jobs:
       run:  |
         echo "ggb is at version ${{ steps.ggb.outputs.tag }}"
 #        echo "ggb is at version ${{ steps.ggb.outputs.tag }}" >foo
-    - name: Get a persistent value
+    - name: Get a persistent value  
       id: get_persistent_value
       uses: aaimio/get-persistent-value@v1
       with:
