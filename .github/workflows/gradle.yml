@@ -201,7 +201,7 @@ jobs:
           asset_name: release-orig-${{ steps.date.outputs.date }}.zip
           asset_content_type: application/zip
 ############################################################### Original pretty         
-    - name: Build with Gradle Original and Pretty
+    - name: Build with Gradle Original and  Pretty
       run: |
         cd ${{env.CPY}} 
         sed -i 's/org.wisepersist.gradle.plugins.gwt.Style.DETAILED/org.wisepersist.gradle.plugins.gwt.Style.PRETTY/' ./web/build.gradle
