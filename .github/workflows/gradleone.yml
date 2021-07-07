@@ -68,7 +68,7 @@ jobs:
     - name: Build with   Gradle Original
       run: |
         cd ${{env.CPY}} 
-        sed -i 's/org.wisepersist.gradle.plugins.gwt.Style.DETAILED/org.wisepersist.gradle.plugins.gwt.Style.DETAILED \n disableClassMetadata = true/' ./web/build.gradle
+        sed -i 's/org.wisepersist.gradle.plugins.gwt.Style.DETAILED/org.wisepersist.gradle.plugins.gwt.Style.PRETTY \n disableClassMetadata = true/' ./web/build.gradle
         cat ./web/build.gradle
         ./gradlew :web:prepareS3Upload :web:createDraftBundleZip :web:mergeDeploy -Pgdraft=true -Pgdetailed=true # 
         # sed -i 's/org.wisepersist.gradle.plugins.gwt.Style.DETAILED/org.wisepersist.gradle.plugins.gwt.Style.PRETTY/' ./web/build.gradle
