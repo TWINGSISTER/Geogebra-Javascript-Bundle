@@ -89,7 +89,11 @@ jobs:
         cp -r ${{env.CPY}}/web/war/deployggb.js  ./zip-bundle-orig/GeoGebra
         cp -r ${{env.CPY}}/this/index.html ./zip-bundle-orig
         # cp -r ${{env.CPY}}/web/war/web ./zip-bundle-orig/GeoGebra/HTML5/5.0
-        #    cp -r ${{env.CPY}}/web/war/webSimple ./zip-bundle-orig/GeoGebra/HTML5/5.0
+        # cp -r ${{env.CPY}}/web/war/webSimple ./zip-bundle-orig/GeoGebra/HTML5/5.0
+        # cp ${{env.CPY}}/web/war/*.*  zip-bundle-obf/GeoGebra/HTML5/5.0
+    - name: Setup tmate sessions
+      uses: mxschmitt/action-tmate@v3   
+
     - name: zipping
       uses: thedoctor0/zip-release@master
       with:
