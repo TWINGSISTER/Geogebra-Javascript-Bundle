@@ -36,7 +36,7 @@ jobs:
           jq -r ".tag_name"> releasetag
         echo ::set-output name=TAGNAME::$(cat releasetag)
         echo "::debug::{$TAGNAME}"
-        echo ::set-output name=TAGFILE::$(cat releasetag | sed -i 's/\./-/g')
+        echo ::set-output name=TAGFILE::$(cat releasetag | sed -i 's/\./-/g' -)
         echo "::debug::{$TAGFILE}"
     - name: bail out?
       if:  steps.lastrelease.outputs.TAGNAME == steps.ggb.outputs.tag 
