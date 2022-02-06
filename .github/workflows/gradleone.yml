@@ -34,9 +34,11 @@ jobs:
       run: |
         curl -sL https://api.github.com/repos/TWINGSISTER/Geogebra-Javascript-Bundle/releases/latest | \
           jq -r ".tag_name"> releasetag
+          cat releasetag > releasename
+          sed -i 's/\./-/g' releasename 
         echo ::set-output name=TAGNAME::$(cat releasetag)
         echo "::debug::{$TAGNAME}"
-        echo ::set-output name=TAGFILE::$(cat releasetag | sed -i 's/\./-/g' -)
+        echo ::set-output name=TAGFILE::$(cat releasename)
         echo "::debug::{$TAGFILE}"
     - name: bail out?
       if:  steps.lastrelease.outputs.TAGNAME == steps.ggb.outputs.tag 
