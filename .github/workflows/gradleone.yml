@@ -35,6 +35,7 @@ jobs:
         curl -sL https://api.github.com/repos/TWINGSISTER/Geogebra-Javascript-Bundle/releases/latest | \
           jq -r ".tag_name"> releasetag
         echo ::set-output name=TAGNAME::$(cat releasetag)
+        echo ::set-output name=TAGFILE::$(cat releasetag|jq -r gsub("\."; "-"))
         echo "::debug::{$TAGNAME}"
     - name: bail out?
       if:  steps.lastrelease.outputs.TAGNAME == steps.ggb.outputs.tag 
@@ -113,5 +114,5 @@ jobs:
           upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
           asset_path: ./zip-bundle-orig/release-orig-${{ steps.date.outputs.date }}.zip
           # asset_name: somename${{ steps.date.outputs.date }}.zip
-          asset_name: geogebra-math-apps-bundle-${{ steps.lastrelease.outputs.TAGNAME }}.zip
+          asset_name: geogebra-math-apps-bundle-${{ steps.lastrelease.outputs.TAGFILE }}.zip
           asset_content_type: application/zip
