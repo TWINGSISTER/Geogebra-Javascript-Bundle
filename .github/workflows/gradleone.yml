@@ -35,6 +35,7 @@ jobs:
         curl -sL https://api.github.com/repos/TWINGSISTER/Geogebra-Javascript-Bundle/releases/latest | \
           jq -r ".tag_name"> releasetag
         echo ::set-output name=TAGNAME::$(cat releasetag)
+        echo "::debug::{$TAGNAME}"
     - name: bail out?
       if:  steps.lastrelease.outputs.TAGNAME == steps.ggb.outputs.tag 
       run: exit 1
