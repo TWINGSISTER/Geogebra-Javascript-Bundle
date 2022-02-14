@@ -6,7 +6,7 @@ name:  Java CI with Gradlez
 
 on:
   push:
-    branches: [ master ]
+    branches: [ main ]
 #    paths:
 #      - 'release-versions/*'
 
@@ -14,7 +14,7 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
   pull_request:
-    branches: [ master ]
+    branches: [ main ]
   schedule:
     # * is a special character in YAML so you have to quote this string
     - cron:  '0 0 1 * *'
