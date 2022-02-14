@@ -40,7 +40,15 @@ jobs:
         echo "::debug::{$TAGNAME}"
         echo ::set-output name=TAGFILE::$(cat releasename)
         echo "::debug::{$TAGFILE}"
-    - name: bail out?
+    - name: relname
+      id: relno
+      uses: mad9000/actions-find-and-replace-string@2
+        with:
+        source: ${{ steps.ggb.outputs.tag }} #  be any arbitrary string 
+        find: '.'        # we want to remove ref/heads/ from source 
+        replace: '_'               # and replace it with a blank string (ie. removing it)
+        echo "::debug::steps.relno.value"
+   - name: bail out?
       if:  steps.lastrelease.outputs.TAGNAME == steps.ggb.outputs.tag 
       run: exit 1
     - name: Get current date
@@ -117,5 +125,6 @@ jobs:
           upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
           asset_path: ./zip-bundle-orig/release-orig-${{ steps.date.outputs.date }}.zip
           # asset_name: somename${{ steps.date.outputs.date }}.zip
-          asset_name: geogebra-math-apps-bundle-${{ steps.lastrelease.outputs.TAGFILE }}.zip
+          # asset_name: geogebra-math-apps-bundle-${{ steps.lastrelease.outputs.TAGFILE }}.zip
+          asset_name: geogebra-math-apps-bundle-${{ steps.relno.value }}.zip
           asset_content_type: application/zip
