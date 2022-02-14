@@ -1,5 +1,5 @@
 # Geogebra-Javascript-Bundle
-Provides Javascript codebase from the Geogebra project
+Provides Javascript codebase from the Geogebra projects
 
 This repository takes the master branch of 
 [the official Geogebra repository](https://github.com/geogebra/geogebra) and builds, via GitHub Actions, the Javascript codebase for the web version of Geogebra. 
