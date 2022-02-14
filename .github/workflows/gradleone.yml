@@ -40,7 +40,7 @@ jobs:
         echo "::debug::{$TAGNAME}"
         echo ::set-output name=TAGFILE::$(cat releasename)
         echo "::debug::{$TAGFILE}"
-    - name: relname
+    - name: relname #
       id: relno
       uses: mad9000/actions-find-and-replace-string@2
         with:
