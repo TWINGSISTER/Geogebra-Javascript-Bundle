@@ -31,5 +31,12 @@ jobs:
       uses: oprypin/find-latest-tag@v1
       with:
         repository: geogebra/geogebra  # The repository to scan.
+    - name: Fetch tag for latest release version
+      id: lastrelease
+      run: |
+        curl -sL https://api.github.com/repos/TWINGSISTER/Geogebra-Javascript-Bundle/releases/latest | \
+        jq -r ".tag_name"> releasetag
+        echo ::set-output name=TAGNAME::$(cat releasetag)
+        echo "::debug::{$TAGNAME}"
     - name: Setup tmate sessions
       uses: mxschmitt/action-tmate@v3   
