@@ -38,5 +38,13 @@ jobs:
         jq -r ".tag_name"> releasetag
         echo ::set-output name=TAGNAME::$(cat releasetag)
         echo "::debug::{$TAGNAME}"
+    - name: release name _ instead of  dot #
+      id: relno #
+      uses: mad9000/actions-find-and-replace-string@2
+        with:
+        source: ${{ steps.ggb.outputs.tag }} #  be any arbitrary string 
+        find: '.'        # we want to remove ref/heads/ from source 
+        replace: '_'               # and replace it with a blank string (ie. removing it)
+        echo "::debug::steps.relno.value"
     - name: Setup tmate sessions
       uses: mxschmitt/action-tmate@v3   
