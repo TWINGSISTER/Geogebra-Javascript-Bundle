@@ -114,7 +114,7 @@ jobs:
           asset_path: ./zip-bundle-orig/release-orig-${{ steps.date.outputs.date }}.zip
           # asset_name: somename${{ steps.date.outputs.date }}.zip
           # asset_name: geogebra-math-apps-bundle-${{ steps.lastrelease.outputs.TAGFILE }}.zip
-          asset_name: geogebra-math-apps-bundle-{$NEWTAGNAME}.zip
+          asset_name: geogebra-math-apps-bundle-${{ steps.lastrelease.outputs.NEWTAGNAME }}.zip
           asset_content_type: application/zip
 
  #   - name: stop
