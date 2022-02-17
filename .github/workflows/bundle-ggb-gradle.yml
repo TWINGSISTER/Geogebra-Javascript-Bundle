@@ -40,5 +40,9 @@ jobs:
         echo ::set-output name=NEWTAGNAME::$(echo ${{ steps.ggb.outputs.tag }}  | sed 's/\./-/g') 
         echo "::debug::{$TAGNAME}"
         echo "::debug::{$NEWTAGNAME}"
+    - name: bail out?
+      if:  steps.lastrelease.outputs.TAGNAME == steps.ggb.outputs.tag 
+      run: exit 1
+
     - name: stop
       uses: mxschmitt/action-tmate@v3   
