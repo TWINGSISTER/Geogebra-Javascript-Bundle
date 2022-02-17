@@ -19,7 +19,6 @@ on:
   workflow_dispatch:
 env:
   CPY: './copydir'
-
 jobs:
   build:
 
@@ -43,7 +42,7 @@ jobs:
     - name: bail out?
       if:  steps.lastrelease.outputs.TAGNAME == steps.ggb.outputs.tag 
       run: exit 1
-   - name: get orig
+    - name: get orig
       uses: actions/checkout@v2
       with :
         repository: geogebra/geogebra
