@@ -37,7 +37,7 @@ jobs:
         curl -sL https://api.github.com/repos/TWINGSISTER/Geogebra-Javascript-Bundle/releases/latest | \
         jq -r ".tag_name"> releasetag
         echo ::set-output name=TAGNAME::$(cat releasetag)
-        echo ::set-output name=NEWTAGNAME:: ${{ steps.ggb.outputs.tag }} 
+        echo ::set-output name=NEWTAGNAME::$(echo ${{ steps.ggb.outputs.tag } | sed 's/\./-/') } 
         echo "::debug::{$TAGNAME}"
         echo "::debug::{$NEWTAGNAME}"
     - name: stop
