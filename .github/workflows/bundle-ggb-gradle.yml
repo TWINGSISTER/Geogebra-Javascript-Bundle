@@ -26,5 +26,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: get tag
+      id: ggb  # The step ID to refer to later.
+      uses: oprypin/find-latest-tag@v1
+      with:
+        repository: geogebra/geogebra  # The repository to scan.
     - name: Setup tmate sessions
       uses: mxschmitt/action-tmate@v3   
