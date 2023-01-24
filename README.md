@@ -45,3 +45,9 @@ When creating a GGB applet in Javascript ``` applet = new GGBApplet(parameters,s
     }
 
 ```
+If a view is not given, the default view is 
+```
+views = {"is3D":false,"AV":false,"SV":false,"CV":false,"EV2":false,"CP":false,"PC":false,"DA":false,"FI":false,"PV":false,"macro":false};
+```
+The list of parameters is given [here](https://web.archive.org/web/20211206002921/https://wiki.geogebra.org/it/Riferimenti:Parametri_delle_applet_GeoGebra). The parameters can be set as ```parameters.height=480```
+
